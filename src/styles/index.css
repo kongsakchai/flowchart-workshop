@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    font-family: itim, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: #242424;
+    background-color: #fff;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    place-content: center;
+}
+
+#root {
+    width: 100vw;
+    display: flex;
+
+    justify-content: center;
+}
+
+.hidden-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hidden-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.diamond {
+    border: none;
+    clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
+    overflow: hidden;
+}
+
+.diamond-inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%) scale(0.9);
+    clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
+    z-index: -1;
+}
