@@ -36,7 +36,7 @@ const Flowchart: React.FC<Props> = ({ data, onPass }) => {
                 const to = blocks.current.find((block) => block.id === next);
                 if (!to) return;
 
-                const label = item.type === BlockTypeEnum.DECISION ? (i === 0 ? "ไช่" : "ไม่ใช่") : undefined;
+                const label = item.type === BlockTypeEnum.DECISION ? (i === 0 ? "ใช่" : "ไม่ใช่") : undefined;
 
                 edges.push({ from, to, label });
             });

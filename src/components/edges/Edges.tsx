@@ -18,6 +18,12 @@ const Edges: React.FC<Props> = ({ edges, height }) => {
             let toX = edge.to.offsetLeft;
             let toY = edge.to.offsetTop;
 
+            let textX = (fromX + toX) / 2;
+            let textY = (fromY + toY) / 2;
+
+            if (toX === fromX) textX += 10;
+            if (toY === fromY) textY += 10;
+
             const center = svgRef.current!.width.baseVal.value / 2;
             const side = Math.floor(toX - center);
 
@@ -42,16 +48,22 @@ const Edges: React.FC<Props> = ({ edges, height }) => {
             }
 
             return (
-                <path
-                    key={`path-${edge.from.id}-${edge.to.id}`}
-                    stroke="black"
-                    strokeWidth="2"
-                    fill="none"
-                    d={direct}
-                    markerEnd="url(#arrow)"
-                >
-                    {edge.label && <text>{edge.label}</text>}
-                </path>
+                <>
+                    <path
+                        key={`path-${edge.from.id}-${edge.to.id}`}
+                        stroke="black"
+                        strokeWidth="2"
+                        fill="none"
+                        d={direct}
+                        markerEnd="url(#arrow)"
+                    />
+
+                    {edge.label && (
+                        <text x={textX} y={textY} text-anchor="middle" alignment-baseline="central">
+                            {edge.label}
+                        </text>
+                    )}
+                </>
             );
         });
 

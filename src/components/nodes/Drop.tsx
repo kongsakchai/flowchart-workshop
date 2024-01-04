@@ -35,10 +35,14 @@ const Drop = React.forwardRef<HTMLDivElement, Props>(({ data, setData }, ref) =>
                 if (!prev) return;
                 const next = new Map(prev);
                 next.set(data!.id, answer);
-                
+
                 return next;
             });
         }
+    };
+
+    const reset = () => {
+        if (drop) setDrop(null);
     };
 
     return (
@@ -48,6 +52,7 @@ const Drop = React.forwardRef<HTMLDivElement, Props>(({ data, setData }, ref) =>
             className={`${activeClass} border-black border-dashed absolute -translate-x-1/2 -translate-y-1/2 `}
             style={{ top: `${y}px`, left: `calc(50% + ${x}px)` }}
             onPointerUp={handleDrop}
+            onClick={reset}
         >
             {drop && <Block data={drop} />}
         </div>

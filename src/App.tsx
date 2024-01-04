@@ -1,4 +1,4 @@
-import { Flowchart, SideSlot } from "@/components/layout";
+import { Flowchart, Menu, SideSlot } from "@/components/layout";
 import { DragContext } from "@/stores/drag";
 import { useEffect, useRef, useState } from "react";
 import { BlockNode } from "@/types/node";
@@ -12,9 +12,9 @@ function App() {
     const [drag, setDrag] = useState<BlockNode | null>(null);
 
     const [data, setData] = useState<BlockNode[]>([]);
+    const [pass, setPass] = useState<boolean[]>([]);
 
     const [index, setIndex] = useState<number>(0);
-    const [pass, setPass] = useState<boolean[]>();
 
     useEffect(() => {
         const move = (e: PointerEvent) => {
@@ -64,18 +64,13 @@ function App() {
     }, [index]);
 
     useEffect(() => {
-        if (data.length === 0) return;
-
-        const passStr = localStorage.getItem("pass");
-        if (!passStr) {
-            setPass(paths.map(() => false));
-            return;
+        const pass = localStorage.getItem("pass");
+        if (pass) {
+            setPass(JSON.parse(pass));
+        } else {
+            setPass(new Array(paths.length).fill(false));
         }
-
-        const pass = JSON.parse(passStr);
-        console.log(pass);
-        setPass(pass);
-    }, [data]);
+    }, []);
 
     const select = (index: number) => {
         setIndex(index);
@@ -83,8 +78,6 @@ function App() {
 
     const onPass = () => {
         setPass((prev) => {
-            if (!prev) return undefined;
-
             const newValue = [...prev];
             newValue[index] = true;
             localStorage.setItem("pass", JSON.stringify(newValue));
@@ -102,17 +95,7 @@ function App() {
                     <Flowchart data={data} onPass={onPass} />
                 </div>
 
-                <div className="w-[200px] h-full flex items-center flex-col p-8 gap-4">
-                    {paths.map((item, i) => (
-                        <button
-                            key={item}
-                            onClick={() => select(i)}
-                            className={`w-full bg-blue border-2 border-black p-2 ${pass?.[i] ? "bg-green" : ""}`}
-                        >
-                            ข้อที่ {i + 1}
-                        </button>
-                    ))}
-                </div>
+                <Menu select={select} paths={paths} pass={pass} />
             </div>
 
             {drag && <Drag ref={dragRef} />}
